@@ -45,8 +45,10 @@ const WebGazerUsage = () => {
 
   const handleReCalibration = () => {
     webgazer.end(); // 结束当前 WebGazer 实例
+    webgazer.clearData()
     setIsCalibrated(false); // 重置校准状态
     setGazeData({ x: 0, y: 0 }); // 清除现有数据
+    webgazer.begin()
   };
 
   useEffect(() => {
