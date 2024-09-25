@@ -18,7 +18,7 @@ const ButtonGrid = ({ onReCalibration }) => {
               className={`bg-button-default p-1 text-white flex justify-center items-center rounded-md cursor-pointer relative z-10 transition-transform duration-300`}
               onClick={onReCalibration} // 点击按钮时触发重校准
             >
-              ReCalibration
+              ReCalibrate
             </div>
           </div>
         </div>

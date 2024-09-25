@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 
-const Calibration = ({ onFinishCalibration }) => {
+const Calibration = ({ onFinishCalibration, webgazer }) => {
   const calibrationTimes = 5
   const [isStarted, setIsStarted] = useState(false);
   const [clickCounts, setClickCounts] = useState(Array(9).fill(0));
   const [isFinished, setIsFinished] = useState(false); // 新增状态用于跟踪是否完成校准
 
   const handleStart = () => {
+    webgazer.clearData()
+    webgazer.begin()
     setIsStarted(true);
   };
 

@@ -15,7 +15,7 @@ const WebGazerUsage = () => {
           setGazeData(data);
         }
       })
-      .begin();
+      // .begin();
 
     return () => {
       webgazer.end();
@@ -48,7 +48,6 @@ const WebGazerUsage = () => {
     webgazer.clearData()
     setIsCalibrated(false); // 重置校准状态
     setGazeData({ x: 0, y: 0 }); // 清除现有数据
-    webgazer.begin()
   };
 
   useEffect(() => {
@@ -58,7 +57,7 @@ const WebGazerUsage = () => {
   return (
     <div>
       {!isCalibrated ? (
-        <Calibration onFinishCalibration={handleCalibrationFinish} />
+        <Calibration onFinishCalibration={handleCalibrationFinish} webgazer={webgazer} />
       ) : (
         // 校准完成后加载主页面，并传递重校准的处理函数
         <ButtonGrid onReCalibration={handleReCalibration} />
