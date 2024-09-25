@@ -12,7 +12,7 @@ function App() {
       <div className="App">
         <Routes>
           {/* 设置主页 ("/") 渲染 WebGazerPage */}
-          <Route path="/" element={<GazeTrackingSample />} />
+          <Route path="/" element={<WebGazerUsage />} />
           {/* 保留 /webgazer 路径 */}
           {/* <Route path="/webgazersample" element={<WebGazerSample />} /> */}
           <Route path="/webgazer" element={<WebGazerUsage />} />

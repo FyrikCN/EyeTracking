@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import webgazer from 'webgazer';
+import Calibration from './calibration';
 import ButtonGrid from '../buttonspage';
+import './index.css';
 
 const WebGazerUsage = () => {
   const [gazeData, setGazeData] = useState({ x: 0, y: 0 });
+  const [isCalibrated, setIsCalibrated] = useState(false);
 
   useEffect(() => {
     webgazer.setRegression('ridge')
@@ -29,12 +32,21 @@ const WebGazerUsage = () => {
     buttons.forEach((button) => {
       const rect = button.getBoundingClientRect();
       if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-        button.style.backgroundImage = 'linear-gradient(to right, #4f46e5, #a855f7, #ec4899)'; // Apply gradient when gazed at
+        button.classList.add('bg-button-gazed');
       } else {
-        button.style.backgroundImage = 'none'; // Reset to the original color
-        button.style.backgroundColor = 'rgb(59, 130, 246)'; // Reset to the original blue color
+        button.classList.remove('bg-button-gazed');
       }
     });
+  };
+
+  const handleCalibrationFinish = () => {
+    setIsCalibrated(true);
+  };
+
+  const handleReCalibration = () => {
+    webgazer.end(); // 结束当前 WebGazer 实例
+    setIsCalibrated(false); // 重置校准状态
+    setGazeData({ x: 0, y: 0 }); // 清除现有数据
   };
 
   useEffect(() => {
@@ -43,7 +55,12 @@ const WebGazerUsage = () => {
 
   return (
     <div>
-      <ButtonGrid />
+      {!isCalibrated ? (
+        <Calibration onFinishCalibration={handleCalibrationFinish} />
+      ) : (
+        // 校准完成后加载主页面，并传递重校准的处理函数
+        <ButtonGrid onReCalibration={handleReCalibration} />
+      )}
     </div>
   );
 };
