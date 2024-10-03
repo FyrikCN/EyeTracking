@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import GazeTrackingSample from './gazetrackingsample';
 import WebGazerSample from './webgazersample';
 import WebGazerUsage from './webgazerusage';
+import SERPSemantic from './serp_semantic';
+import SERPCrossRef from './serp_crossref';
 import './App.css';
 
 function App() {
@@ -12,7 +14,7 @@ function App() {
       <div className="App">
         <Routes>
           {/* 设置主页 ("/") 渲染 WebGazerPage */}
-          <Route path="/" element={<WebGazerUsage />} />
+          <Route path="/" element={<SERPCrossRef />} />
           {/* 保留 /webgazer 路径 */}
           {/* <Route path="/webgazersample" element={<WebGazerSample />} /> */}
           <Route path="/webgazer" element={<WebGazerUsage />} />

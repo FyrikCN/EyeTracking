@@ -12,7 +12,10 @@ module.exports = {
         'blue-black': 'linear-gradient(to right, #4f46e5, #000)'
       },
       colors: {
-        'button-default': 'rgb(59, 130, 246)'
+        'button-default': 'rgb(59, 130, 246)',
+        'title': '#660099',
+        'authors': '#006621',
+        'operations': '#1a0dab'
       }
     },
     screens: {
@@ -20,6 +23,8 @@ module.exports = {
       'md': '768px'
     }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 }
 

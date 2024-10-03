@@ -1,0 +1,49 @@
+/* 遮罩的基本样式 */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1024px;
+  height: 200px;
+  background-color: white;
+  /* z-index: 10; */
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* 点击后遮罩块的动画，移动并缩放到屏幕中央 */
+.overlay.active {
+  /* position: fixed;
+  top: 50%;
+  left: 50%; */
+  width: 600px;
+  height: 400px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  visibility: visible;
+  /* 在外部添加阴影 */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* 阴影在正方形外面 */
+}
+
+/* 遮罩内的内容 */
+.block-content {
+  /* text-align: center; */
+}
+
+/* 遮罩层外的半透明背景 */
+/* .overlay.active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+} */

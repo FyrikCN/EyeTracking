@@ -1,0 +1,17 @@
+/* overlay.css */
+
+/* 遮罩的基本样式 */
+.overlay {
+  width: 400px;
+  height: 400px;
+  background-color: white;
+  border-radius: 0.5rem; /* Tailwind 的 rounded-lg */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(0);
+  transition: all 0.5s ease;
+}
+
+/* 点击后遮罩块的动画，移动并缩放到屏幕中央 */
+.overlay.active {
+  transform: scale(1);
+}
