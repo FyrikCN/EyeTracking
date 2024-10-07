@@ -13,6 +13,7 @@ const List = () => {
     const lastGazeIndex = useRef(null); // 记录最后注视的块索引
     const scrollContainerRef = useRef(null); // 引用滚动容器
     const [gazedIndex, setGazedIndex] = useState(-1)
+    const [showText, setShowText] = useState(false)
     const paperWidth = 1024
     const paperHeight = 200
     const popupWidth = 600
@@ -104,12 +105,13 @@ const List = () => {
 
             // 检查注视位置是否在弹窗内
             if (x < modalLeft || x > modalRight || y < modalTop || y > modalBottom) {
-                console.log('在弹窗外');
+                // console.log('在弹窗外');
 
                 if (!timerActive) { // 只有当没有定时器时才设置新定时器
                     gazeTimeout.current = setTimeout(() => {
                         setActivePaper(null); // 显示弹窗
                         activePaperRef.current = null; // 关闭弹窗
+                        setShowText(false)
                         timerActive = false; // 定时器完成，重置标志
                     }, 1000);
                     timerActive = true; // 设置标志为活动状态
@@ -133,6 +135,9 @@ const List = () => {
                     if (gazedIndex === lastGazeIndex.current) {
                         activePaperRef.current = papers[gazedIndex]; // 将当前文献存入 ref
                         setActivePaper(activePaperRef.current); // 显示弹窗
+                        setTimeout(() => {
+                            setShowText(true); // 动画结束后显示文字
+                        }, 1);
                     }
                 }, 1000);
             }
@@ -149,7 +154,7 @@ const List = () => {
                 {papers.map((paper, index) => (
                     <div
                         key={index}
-                        className={`relative w-[${paperWidth}px] min-h-[${paperHeight}px] mb-4 p-4 flex flex-col justify-center border border-transparent rounded-lg transition-all duration-300 ${gazedIndex === index ? 'border-gray-300 shadow-[0_0_30px_rgba(0,0,0,0.2)]' : ''
+                        className={`relative w-[${paperWidth}px] min-h-[${paperHeight}px] mb-4 p-4 flex flex-col justify-center border border-transparent rounded-lg transition-all duration-300 ${gazedIndex === index ? 'border-gray-300 shadow-[0_0_15px_15px_rgba(215,215,215,0.5)]' : ''
                             }`}
                     >
                         <h2 className="mb-[2px] text-xl font-semibold text-title text-[17px] leading-[19px]">{paper.title || 'No title available'}</h2>
@@ -175,34 +180,34 @@ const List = () => {
 
             {/* 遮罩层，50%透明度 */}
             {activePaperRef.current && (
-                <div
-                    className="fixed inset-0 bg-white bg-opacity-50 z-10"
-                >
-                    {/* 弹窗，宽600高400 */}
-                    <div
-                        className={`fixed top-1/2 left-1/2 w-[${popupWidth}px] h-[${popupHeight}px] bg-white rounded-lg shadow-lg z-20 transform -translate-x-1/2 -translate-y-1/2 p-6`}
-                    >
-                        <div className="relative block-content">
-                            <h2 className="text-xl font-semibold text-[#660099]">{activePaperRef.current.title || 'No title available'}</h2>
-                            <p className="text-sm text-gray-600">
-                                Authors: <span className='text-authors'>{activePaperRef.current.author
-                                    ? activePaperRef.current.author.map((author) => author.name || (author.given + ' ' + author.family)).join(', ')
-                                    : 'No authors available'}</span>
-                            </p>
-                            <p className="text-sm text-gray-600">Year: <span className='text-authors'>{activePaperRef.current.created ? activePaperRef.current.created['date-parts'][0][0] : 'No year available'}</span></p>
-                            <p className="text-sm text-gray-600 mt-2 line-clamp-6">
-                                Abstract: {activePaperRef.current.abstract
-                                    ? activePaperRef.current.abstract.replace('<jats:p>', '')
-                                    : 'No abstract available'}
-                            </p>
-                            <p className="text-[13px] text-operations line-clamp-2 space-x-2">
-                                <span>Reference: {activePaperRef.current['reference-count'] ?? '0'}</span>
-                                <span>Cited by {activePaperRef.current['is-referenced-by-count'] ?? '0'}</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            )}
+    <div
+        className="fixed inset-0 bg-white bg-opacity-50 z-10"
+    >
+        {/* 弹窗，宽600高400，使用 popup-appear 动画 */}
+        <div
+            className={`fixed top-1/2 left-1/2 w-[${popupWidth}px] bg-white rounded-lg border border-[rgba(198,198,198,0.5)] z-20 transform -translate-x-1/2 -translate-y-1/2 p-6 popup-appear border-gray-300 shadow-[0_0_30px_15px_rgba(198,198,198,0.5)] ${showText ? 'show' : ''}`}
+        >
+            <div className={`${showText ? 'opacity-100' : 'opacity-0'} relative block-content transition-opacity duration-300 ease-in-out`}>
+                <h2 className="text-xl font-semibold text-[#660099]">{activePaperRef.current.title || 'No title available'}</h2>
+                <p className="text-sm text-gray-600">
+                    Authors: <span className='text-authors'>{activePaperRef.current.author
+                        ? activePaperRef.current.author.map((author) => author.name || (author.given + ' ' + author.family)).join(', ')
+                        : 'No authors available'}</span>
+                </p>
+                <p className="text-sm text-gray-600">Year: <span className='text-authors'>{activePaperRef.current.created ? activePaperRef.current.created['date-parts'][0][0] : 'No year available'}</span></p>
+                <p className="text-sm text-gray-600 mt-2 line-clamp-6">
+                    Abstract: {activePaperRef.current.abstract
+                        ? activePaperRef.current.abstract.replace('<jats:p>', '')
+                        : 'No abstract available'}
+                </p>
+                <p className="text-[13px] text-operations line-clamp-2 space-x-2">
+                    <span>Reference: {activePaperRef.current['reference-count'] ?? '0'}</span>
+                    <span>Cited by {activePaperRef.current['is-referenced-by-count'] ?? '0'}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+)}
         </>
     );
 };

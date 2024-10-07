@@ -47,3 +47,37 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 5;
 } */
+
+@keyframes expandHeight {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 400px; /* 或者用你设定的目标高度 */
+  }
+}
+
+.popup-appear {
+  animation: expandHeight 200ms ease-out forwards; /* 定义动画持续时间和效果 */
+  overflow: hidden; /* 避免高度变化时的内容溢出 */
+  width: 600px; /* 保持宽度不变 */
+  height: 0; /* 起始高度为0 */
+}
+.popup-content {
+  overflow: hidden; /* 防止内容溢出 */
+  height: 0; /* 初始高度为 0 */
+  transition: height 200ms ease-out; /* 高度变化动画，快开始慢结束 */
+}
+
+.popup-content.show {
+  height: 400px; /* 展开时的目标高度 */
+}
+
+.popup-text {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out; /* 文字显示动画 */
+}
+
+.popup-text.show {
+  opacity: 1; /* 文字动画 */
+}
