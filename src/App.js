@@ -6,6 +6,7 @@ import WebGazerSample from './webgazersample';
 import WebGazerUsage from './webgazerusage';
 import SERPSemantic from './serp_semantic';
 import SERPCrossRef from './serp_crossref';
+import Rectangle from './rectangle';
 import './App.css';
 
 function App() {
@@ -16,8 +17,12 @@ function App() {
           {/* 设置主页 ("/") 渲染 WebGazerPage */}
           <Route path="/" element={<SERPCrossRef />} />
           {/* 保留 /webgazer 路径 */}
-          {/* <Route path="/webgazersample" element={<WebGazerSample />} /> */}
+          <Route path="/webgazersample" element={<WebGazerSample />} />
           <Route path="/webgazer" element={<WebGazerUsage />} />
+
+          <Route path="/serp" element={<SERPCrossRef />} />
+
+          <Route path='/rectangle' element={<Rectangle />} />
           
           <Route path="/gazetrackingsample" element={<GazeTrackingSample />} />
           {/* 示例其他路径 */}
